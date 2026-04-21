@@ -1,13 +1,9 @@
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { DashboardView } from "@/features/dashboard/views/dashboard-view"
 
 const DashboardPage = () => {
   return (
-    <div className="flex "> 
-    <SidebarTrigger />
-    <h1 className="text-2xl font-semibold">
-        Dashboard
-    </h1>
-    </div>
+    <DashboardView />
   )
 }
 

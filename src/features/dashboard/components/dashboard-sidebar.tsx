@@ -1,8 +1,8 @@
 "use client";
 
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { OrganizationSwitcher, useClerk } from "@clerk/nextjs";
+import { OrganizationSwitcher, useClerk, UserButton } from "@clerk/nextjs";
 import { AudioLines, Headphones, Home, LayoutGrid, LucideIcon, Settings, Volume2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -116,14 +116,18 @@ export function DashboardSidebar() {
                         }
                         appearance={{
                             elements: {
-                                rootBox: "w-full! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:flex! group-data-[collapsible=icon]:justify-center!",
-                                organizationSwitcherTrigger: "w-full! justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! gap-3! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:p-1!",
-                                organizationPreview: "gap-2!",
-                                organizationreviewAvatarBox: "size-6! rounded-sm!",
-                                organizationPreviewTextContainer: "text-xs! tracking-tight! font-medium! text-foreground! group-data-[collapsible=icon]:hidden!",
-                                organizationPreviewMainIdentifier: "text-[13px]!",
-                                OrganizationSwitcherTriggerIcon: "size-4! text-sidebar-foreground! group-data-[collapsible=icon]:hidden!"
-                            }
+                  rootBox: 
+                    "w-full! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:flex! group-data-[collapsible=icon]:justify-center!",
+                  organizationSwitcherTrigger:
+                    "w-full! justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! gap-3! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:p-1! shadow-[0px_1px_1.5px_0px_rgba(44,54,53,0.03)]!",
+                  organizationPreview: "gap-2!",
+                  organizationPreviewAvatarBox: "size-6! rounded-sm!",
+                  organizationPreviewTextContainer: 
+                    "text-xs! tracking-tight! font-medium! text-foreground! group-data-[collapsible=icon]:hidden!",
+                  organizationPreviewMainIdentifier: "text-[13px]!",
+                  organizationSwitcherTriggerIcon:
+                    "size-4! text-sidebar-foreground! group-data-[collapsible=icon]:hidden!",
+                },
                         }}  />
                     </SidebarMenuItem>
                 </SidebarMenu>
@@ -133,6 +137,30 @@ export function DashboardSidebar() {
                 <NavSection items={mainMenuItems} pathname={pathname} />
                 <NavSection label="Others" items={othersMenuItems} pathname={pathname} />
             </SidebarContent>
+            <div className="border-b border-dashed border-border" />
+            <SidebarFooter className="gap-3 py-3">
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <UserButton 
+                          showName
+                          fallback={
+                            <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white"/>
+                        }
+                        appearance={{
+                                elements: {
+                  rootBox:
+                    "w-full! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:flex! group-data-[collapsible=icon]:justify-center!",
+                  userButtonTrigger:
+                    "w-full! justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! shadow-[0px_1px_1.5px_0px_rgba(44,54,53,0.03)]! group-data-[collapsible=icon]:w-auto! group-data-[collapsible=icon]:p-1! group-data-[collapsible=icon]:after:hidden! [--border:color-mix(in_srgb,transparent,var(--clerk-color-neutral,#000000)_15%)]!",
+                  userButtonBox: "flex-row-reverse! gap-2!",
+                  userButtonOuterIdentifier: "text-[13px]! tracking-tight! font-medium! text-foreground! pl-0! group-data-[collapsible=icon]:hidden!",
+                  userButtonAvatarBox: "size-6!",
+                }
+                            }}
+                        />
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
             <SidebarRail />
         </Sidebar>
     )
