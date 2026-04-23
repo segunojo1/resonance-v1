@@ -5,7 +5,13 @@ export const metadata: Metadata = {
     title: "Text to Speech"
 }
 
-export default function TextToSpeechPage() {
+export default async function TextToSpeechPage({
+    searchParams
+}: {
+    searchParams: Promise<{ text?: string; voiceId?: string}>
+}) {
+    const params = await searchParams;
+
     return <TextToSpeechView />;
 }
 
