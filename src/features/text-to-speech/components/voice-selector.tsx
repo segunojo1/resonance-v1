@@ -37,6 +37,8 @@ export function VoiceSelector() {
         }
       : voices[0];
 
+console.log("Current voice:", customVoices, systemVoices, currentVoice, hasMissingSelectedVoice);
+
   return (
     <Field>
       <FieldLabel>Voice style</FieldLabel>
