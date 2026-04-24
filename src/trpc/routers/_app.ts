@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { baseProcedure, createTRPCRouter } from '../init';
 import { voicesRouter } from './voices';
+import { generationsRouter } from './generations';
  
 export const appRouter = createTRPCRouter({
 //   health: baseProcedure.query(async () => {
@@ -9,6 +10,7 @@ export const appRouter = createTRPCRouter({
 //     return { status: 'ok', code: 123 };
 //   })
      voices: voicesRouter,
+     generations: generationsRouter
 });
  
 // export type definition of API

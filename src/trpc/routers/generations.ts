@@ -137,6 +137,8 @@ export const generationsRouter = createTRPCRouter({
             }
         })
       } catch (error) {
+        console.error("[generations.create] failed to persist generation", error);
+
         if (generationId) {
             await prisma.generation
             .delete({
@@ -147,9 +149,11 @@ export const generationsRouter = createTRPCRouter({
             .catch(() => {})
         }
 
+    const reason = error instanceof Error ? error.message : "Unknown error";
+
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
-            message: `Failed to store generated audio.`
+      message: `Failed to store generated audio: ${reason}`
         })
       }
 
