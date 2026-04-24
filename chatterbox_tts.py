@@ -4,19 +4,19 @@ import modal
 
 # Use this to add R2 tokens:
 # modal secret create cloudflare-r2 \
-#   AWS_ACCESS_KEY_ID=465ad43ffaf0e5d9963d798a2773224b \
-#   AWS_SECRET_ACCESS_KEY=79eb0f77dc54141546eee6b4541e4889bbd0bd1cd875b6db24bfd0678a5065f2
+#   AWS_ACCESS_KEY_ID=key id \
+#   AWS_SECRET_ACCESS_KEY=access_key
 
 # Use this to test locally:
 # modal run chatterbox_tts.py \
 #   --prompt "Hello from Chatterbox [chuckle]." \
-#   --voice-key "voices/system/cmobflaai0000nov138emqiy9"
+#   --voice-key "voices/system/voiceid"
 
 # Use this to test CURL:
 # curl -X POST "https://olusegunkd2017--chatterbox-tts-chatterbox-serve.modal.run/generate" \
 #   -H "Content-Type: application/json" \
-#   -H "X-Api-Key: super_secret_ke" \
-#   -d '{"prompt": "Hello from Chatterbox [chuckle].", "voice_key": "voices/system/cmobflaai0000nov138emqiy9"}' \
+#   -H "X-Api-Key: <your api key>" \
+#   -d '{"prompt": "Hello from Chatterbox [chuckle].", "voice_key": "voices/system/voice_id"}' \
 #   --output output.wav
 
 # R2 cloud bucket mount (read-only, replaces Modal Volume)
