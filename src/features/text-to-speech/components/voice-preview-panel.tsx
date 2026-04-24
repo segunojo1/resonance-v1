@@ -6,6 +6,9 @@ import { Pause, Play, Download, Redo, Undo } from "lucide-react";
 import { format } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { useWaveSurfer } from "../hooks/use-wavesurfer";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
 
 type VoicePreviewPanelVoice = {
   id?: string;
@@ -70,7 +73,25 @@ export function VoicePreviewPanel({
       </div>
 
       <div className="relative flex flex-1 items-center justify-center">
-        <audio ref={audioRef} src={audioUrl} />
+        {!isReady && (
+            <div className="absolute inset-0 z-10 flex items-center">
+                <Badge className="gap-2 bg-background/90 px-3 py-1.5 text-sm text-muted-foreground shadow-sm ">
+                    <Spinner className="size-4"/>
+                    <span>Loading audio...</span>
+                </Badge>
+            </div>
+        )}
+
+        <div  ref={containerRef} className={cn("w-full cursor-pointer transition-opacity duration-200 ", !isReady && "opacity-0")} />
+      </div>
+
+      <div className="flex items-center justify-center">
+        <p className="text-3xl font-semibold tabular-nums tracking-tight text-foreground">
+            {formatTime(currentTime)}&nbsp;
+            <span className="text-muted-foreground">
+                /&nbsp;{formatTime(duration)}
+            </span>
+        </p>
       </div>
 
       <div className="flex flex-col items-center p-6">
@@ -93,6 +114,17 @@ export function VoicePreviewPanel({
 
           <div className="flex items-center justify-center gap-3">
             <Button
+            variant="ghost"
+            size="icon-lg"
+            className="flex-col"
+            onClick={() => seekBackward(10)}
+            disabled={!isReady}
+            >
+                <Undo className="size-4 -mb-1"/>
+                <span className="text-[10px] font-medium">10</span>
+            </Button>
+
+            <Button
               variant="default"
               size="icon-lg"
               className="rounded-full"
@@ -104,8 +136,33 @@ export function VoicePreviewPanel({
                 <Play className="fill-background" />
               )}
             </Button>
+
+            <Button
+            variant="ghost"
+            size="icon-lg"
+            className="flex-col"
+            onClick={() => seekForward(10)}
+            disabled={!isReady}
+            >
+                <Redo className="size-4 -mb-1"/>
+                <span className="text-[10px] font-medium">10</span>
+            </Button>
           </div>
-          <div />
+
+          <div className="flex justify-end">
+            <Button
+            variant="outline"
+            size="sm"
+            className="flex-col"
+            onClick={handleDownload}
+            disabled={isDownloading}
+            >
+                <Download size="size-4" />
+                Download
+            </Button>
+          </div>
+
+
         </div>
       </div>
     </div>
