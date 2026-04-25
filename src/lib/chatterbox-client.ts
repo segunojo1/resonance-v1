@@ -7,3 +7,4 @@ export const chatterbox = createClient<paths>({ baseUrl: env.CHATTERBOX_API_URL,
         "x-Api-Key": env.CHATTERBOX_API_KEY
     }
 });
+    
