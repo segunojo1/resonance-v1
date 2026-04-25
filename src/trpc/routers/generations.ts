@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { TEXT_MAX_LENGTH } from "@/features/text-to-speech/data/constants";
 import { chatterbox } from "@/lib/chatterbox-client";
 import { uploadAudio } from "@/lib/r2";
+import * as Sentry from "@sentry/node";
 
 export const generationsRouter = createTRPCRouter({
   getById: orgProcedure
@@ -52,6 +53,7 @@ export const generationsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ input, ctx }) => {
+        
       const voice = await prisma.voice.findUnique({
         where: {
           id: input.voiceId,
@@ -90,6 +92,13 @@ export const generationsRouter = createTRPCRouter({
         },
         parseAs: "arrayBuffer"
       });
+
+      Sentry.logger.info("generation started", {
+       orgId: ctx.orgId,
+       voiceId: input.voiceId,
+       textLength: input.text.length 
+      });
+
       if (error) {
         throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
@@ -103,6 +112,8 @@ export const generationsRouter = createTRPCRouter({
             message: `Invalid audio data received from TTS service`
         })
       }
+
+
       const buffer = Buffer.from(data);
       let generationId: string | null = null;
       let r2ObjectKey: string | null = null;
@@ -136,6 +147,11 @@ export const generationsRouter = createTRPCRouter({
                 r2ObjectKey
             }
         })
+
+        Sentry.logger.info("audio generated", {
+            orgId: ctx.orgId,
+            generationId: generation.id
+        })
       } catch (error) {
         console.error("[generations.create] failed to persist generation", error);
 
@@ -148,6 +164,12 @@ export const generationsRouter = createTRPCRouter({
             })
             .catch(() => {})
         }
+
+        Sentry.logger.error("Failed to store generated audio", {
+            orgId: ctx.orgId,
+            voiceId: input.voiceId,
+            error: error.message
+        })
 
     const reason = error instanceof Error ? error.message : "Unknown error";
 
