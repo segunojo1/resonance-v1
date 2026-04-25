@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { TRPCReactProvider } from "@/trpc/client";
 
@@ -31,12 +32,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <TRPCReactProvider>
-      <html lang="en">
-        <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
-          {children}
-          <Toaster />
-        </body>
-      </html>
+        <html lang="en">
+          <body
+            className={`${inter.variable} ${geistMono.variable} antialiased`}
+          >
+            <NuqsAdapter>{children}</NuqsAdapter>
+            <Toaster />
+          </body>
+        </html>
       </TRPCReactProvider>
     </ClerkProvider>
   );
