@@ -288,12 +288,25 @@ export function VoiceCreateForm({
           body: file,
         });
 
+      const parseResponseBody = async (): Promise<{ error?: string }> => {
+        const text = await response.text();
+        if (!text) {
+          return {};
+        }
+
+        try {
+          return JSON.parse(text) as { error?: string };
+        } catch {
+          return {};
+        }
+      };
+
       if (!response.ok) {
-        const body = await response.json();
+        const body = await parseResponseBody();
         throw new Error(body.error ?? "Failed to create voice");
       }
 
-      return response.json();
+      return parseResponseBody();
     },
   });
 
