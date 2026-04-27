@@ -25,7 +25,7 @@ export function DashboardHeader() {
                     </Link>
                 </Button>
                 <Button variant="outline" size="sm" asChild>
-                    <Link href="mailto:olusegnkd2017@gmail.com">
+                    <Link href="mailto:olusegunkd2017@gmail.com">
                       <Headphones />
                       <span className="hidden lg:block">Need help?</span>
                     </Link>
